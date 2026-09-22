@@ -1,0 +1,855 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<title>JBM tv</title>
+<meta name="theme-color" content="#0e1120">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Manrope:wght@500;600;700&display=swap" rel="stylesheet">
+%%HLS%%
+<style>
+:root{
+  --bg:#0e1120; --panel:#151936; --btn:#2b3554; --row:#252a3f; --row2:#30364f;
+  --text:#ffffff; --muted:#98a3cc; --orange:#ffab2e; --red:#b3191d; --accent:#0150fb; --line:rgba(255,255,255,.1);
+  --font-display:'Sora','Trebuchet MS',system-ui,sans-serif;
+  --font-body:'Manrope',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+:root[data-theme="light"]{
+  --bg:#eaeefb; --panel:#ffffff; --btn:#d7def5; --row:#ffffff; --row2:#e3e9fb;
+  --text:#0e1430; --muted:#55628f; --line:rgba(14,20,48,.14);
+}
+html{font-size:clamp(11px,3.3vh,28px);scroll-padding-top:env(safe-area-inset-top,0px)}
+html,body{height:100%;margin:0}
+*,*::before,*::after{box-sizing:inherit}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-weight:600;overflow:hidden;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer;padding:0;text-align:inherit}
+input{font:inherit;color:inherit;user-select:text;-webkit-user-select:text}
+[hidden]{display:none!important}
+.ic{display:block;flex:none}
+:focus{outline:none}
+:focus-visible{outline:.2rem solid #fff;outline-offset:.12rem;box-shadow:0 0 0 .38rem var(--accent);z-index:3;position:relative}
+.crow:focus-visible,.catrow:focus-visible,.orow:focus-visible{outline-offset:-.25rem;box-shadow:none}
+.mut{color:var(--muted)}
+
+#app{height:100vh;height:100dvh}
+.scr{height:100%;display:flex;flex-direction:column;padding:0 4% 2.2%}
+
+/* ---------- accueil ---------- */
+.hd{display:flex;align-items:center;justify-content:space-between;padding:2.6% 0 1.4%;flex:none}
+.hlogo{height:4.2rem;width:4.2rem;border-radius:1rem}
+.hicons{display:flex;gap:.9rem}
+.rb{width:3rem;height:3rem;border-radius:50%;background:var(--btn);display:grid;place-items:center;flex:none;color:#fff}
+[data-theme="light"] .rb{color:var(--text)}
+.rb.on{box-shadow:0 0 0 .2rem var(--red);background:#5b2a35}
+.home .hd{padding-top:2%}
+.hgrid{flex:1;min-height:0;display:grid;grid-template-columns:1fr 2fr;gap:1rem;padding:0 5%}
+.rt{display:grid;grid-template-columns:repeat(6,1fr);grid-template-rows:1fr auto;gap:1rem;min-height:0}
+.tile{background:var(--panel);border-radius:1.2rem;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.7rem;min-height:0;padding:.6rem}
+.tile svg.big{width:4.6rem;height:4.6rem}
+.tile b{font-family:var(--font-display);font-size:1.3rem;font-weight:700;text-align:center}
+.tile small{color:var(--muted);font-size:.8rem}
+.tile.big{grid-row:span 1}
+.tile.c3{grid-column:span 3}
+.sb{grid-column:span 2;background:var(--btn);border-radius:.9rem;display:flex;align-items:center;justify-content:center;gap:.7rem;padding:1.1rem .6rem;font-size:1rem;font-weight:700;color:#fff}
+[data-theme="light"] .sb{color:var(--text)}
+.ft{display:flex;justify-content:space-between;align-items:flex-end;padding:1.4rem 2% 0;flex:none}
+.ft div div{font-size:.95rem;line-height:1.6}
+.clk{text-align:right}
+#clock{font-family:var(--font-display);font-size:1.9rem;font-weight:700;line-height:1.1!important}
+#date{text-transform:capitalize;font-size:1rem}
+
+/* ---------- écrans liste ---------- */
+.hd2{display:flex;align-items:center;gap:1rem;padding:1.6% 0 1.2%;flex:none;border-bottom:.15rem solid rgba(255,255,255,.22);margin-bottom:.7rem}
+[data-theme="light"] .hd2{border-color:var(--line)}
+.hd2 h1{margin:0;flex:1;font-family:var(--font-display);font-size:1.6rem;font-weight:700;color:var(--orange);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.types{display:flex;gap:.8rem}
+.cols{flex:1;min-height:0;display:grid;grid-template-columns:24% 25% 1fr;gap:.7rem}
+.cols.two{grid-template-columns:26% 1fr}
+.col{display:flex;flex-direction:column;min-height:0;min-width:0}
+.sbox{display:flex;align-items:center;gap:.6rem;background:var(--btn);border-radius:2rem;padding:0 1.1rem;height:2.9rem;flex:none;margin-bottom:.6rem}
+.sbox input{flex:1;min-width:0;background:none;border:0;outline:0;height:100%;font-size:1rem;color:var(--text)}
+.sbox input::placeholder{color:var(--muted)}
+.sbox:focus-within{box-shadow:0 0 0 .2rem #fff}
+.lst{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;padding:.15rem}
+.lst::-webkit-scrollbar{display:none}
+.catrow,.crow{display:flex;align-items:center;gap:.7rem;width:100%;background:var(--row);border-radius:.45rem;padding:0 .9rem;margin-bottom:.45rem;font-size:1rem;font-weight:600}
+.catrow{height:2.5rem;justify-content:space-between}
+.catrow span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.catrow.on{background:var(--red);color:#fff}
+.crow{height:2.85rem}
+.crow.on{background:var(--row2)}
+.crow .cn{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.clogo{width:2rem;height:2rem;border-radius:.4rem;flex:none;background:#1c2350;display:grid;place-items:center;overflow:hidden;position:relative;font-family:var(--font-display);font-weight:800;font-size:.9rem;color:#9fb4ff}
+.clogo img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#fff}
+.crow .ic{color:var(--muted)}
+.crow .fv{color:#ff6b81}
+.empty{padding:2rem 1rem;text-align:center;color:var(--muted);font-size:.95rem}
+
+.c3col{display:flex;flex-direction:column;min-height:0;min-width:0}
+.pv{position:relative;width:100%;aspect-ratio:16/9;max-height:58%;background:#000;border-radius:.3rem;overflow:hidden;flex:none;display:grid;place-items:center}
+.pv video{position:absolute;inset:0;width:100%;height:100%;background:#000;pointer-events:none}
+.nosig{display:flex;flex-direction:column;align-items:center;gap:.5rem;color:#fff;text-align:center}
+.nosig img{width:3.4rem;height:3.4rem;border-radius:.9rem}
+.nosig b{font-family:var(--font-display);font-size:1.2rem}
+.nosig span{color:#9fb0e6;font-size:.85rem}
+.info{display:flex;align-items:center;gap:.9rem;padding:.5rem .2rem;min-height:3.4rem}
+.info .clogo{width:2.8rem;height:2.8rem;border-radius:.5rem}
+.info h2{margin:0;font-family:var(--font-display);font-size:1.4rem;color:var(--orange);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.btnrow{display:flex;gap:.7rem;margin-top:auto;padding-top:.5rem;flex-wrap:wrap}
+.pill{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.5rem 1rem;border-radius:2rem;border:.14rem solid #fff;font-size:.85rem;font-weight:700;white-space:nowrap}
+[data-theme="light"] .pill{border-color:var(--text)}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(8.6rem,1fr));gap:.9rem;align-content:start}
+.poster{position:relative;aspect-ratio:2/3;border-radius:.7rem;overflow:hidden;color:#fff;display:flex;align-items:flex-end;padding:.6rem;text-align:left;background:#1c2350}
+.poster img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.poster::after{content:"";pointer-events:none;position:absolute;inset:0;background:linear-gradient(to top,rgba(4,8,40,.9),rgba(4,8,40,0) 62%)}
+.poster b{pointer-events:none;position:relative;z-index:1;font-family:var(--font-display);font-size:.85rem;line-height:1.2;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.poster .pfav{position:absolute;top:.25rem;right:.25rem;z-index:2;width:2rem;height:2rem;border-radius:50%;display:grid;place-items:center;color:#fff;background:rgba(0,0,0,.35)}
+.poster .pfav.on{color:#ff6b81}
+.poster .pfav.on svg{fill:currentColor}
+
+/* ---------- pages simples ---------- */
+.page{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none;width:100%;max-width:46rem;margin:0 auto;padding:.4rem .3rem 1rem}
+.page::-webkit-scrollbar{display:none}
+.orow{display:flex;align-items:center;gap:1rem;width:100%;background:var(--row);border-radius:.6rem;padding:.9rem 1.1rem;margin-bottom:.55rem;font-size:1.02rem}
+.orow .meta{flex:1;min-width:0;display:flex;flex-direction:column}
+.orow .meta span{color:var(--muted);font-size:.82rem;font-weight:600}
+.orow.on{background:var(--red)}
+.orow.on .meta span{color:#ffd9dc}
+.chk{width:1.5rem;height:1.5rem;border-radius:.4rem;border:.15rem solid var(--muted);display:grid;place-items:center;flex:none;color:#fff}
+.orow.on .chk{background:#fff;border-color:#fff;color:var(--red)}
+.sw{width:3rem;height:1.7rem;border-radius:1rem;background:var(--btn);position:relative;flex:none}
+.sw::after{content:"";position:absolute;top:.2rem;left:.2rem;width:1.3rem;height:1.3rem;border-radius:50%;background:#fff;transition:transform .15s}
+.sw.on{background:var(--accent)}
+.sw.on::after{transform:translateX(1.3rem)}
+.tabs{display:flex;gap:.5rem;margin:.2rem 0 1rem}
+.tabs button{flex:1;padding:.7rem .4rem;border-radius:.6rem;background:var(--btn);font-weight:700;text-align:center;font-size:.95rem}
+.tabs button.on{background:var(--accent);color:#fff}
+.fld{display:flex;flex-direction:column;gap:.35rem;margin-bottom:.8rem}
+.fld label{font-size:.85rem;color:var(--muted)}
+.fld input{background:var(--btn);border:0;border-radius:.6rem;padding:.8rem 1rem;outline:0;width:100%;font-size:1rem;color:var(--text)}
+.fld input:focus{box-shadow:0 0 0 .2rem #fff}
+.act{display:flex;align-items:center;justify-content:center;gap:.6rem;width:100%;background:var(--accent);color:#fff;border-radius:.7rem;padding:.9rem;font-size:1.05rem;font-weight:700;margin-top:.4rem}
+.act.ghost{background:var(--btn);color:#fff}
+[data-theme="light"] .act.ghost{color:var(--text)}
+.sgrid{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(11rem,1fr));gap:.8rem;align-content:start;padding:.3rem .3rem 1rem}
+.sgrid::-webkit-scrollbar{display:none}
+.sg{background:var(--panel);border-radius:.9rem;padding:1rem;display:flex;flex-direction:column;align-items:center;gap:.6rem;text-align:center;min-height:6.6rem;justify-content:center;font-size:.95rem;font-weight:700}
+.sg .ic{color:#6fa0ff}
+.sg small{color:var(--muted);font-size:.78rem;font-weight:600}
+.big-input{font-size:1.2rem}
+
+/* ---------- lecteur web (secours) ---------- */
+#player{position:fixed;inset:0;z-index:30;background:#000;display:flex;flex-direction:column;color:#fff}
+.p-top{display:flex;align-items:center;gap:.8rem;padding:.6rem .9rem;background:linear-gradient(#010624,#01062400)}
+.p-top b{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.p-stage{flex:1;position:relative;min-height:0}
+.p-stage video{width:100%;height:100%;background:#000}
+.p-msg{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.7rem;text-align:center;padding:1rem;background:radial-gradient(circle at 50% 40%,#0a2fb0 0,#030a2e 70%)}
+.p-msg img{width:4rem;height:4rem;border-radius:1rem}
+.p-msg p{margin:0;max-width:34ch;color:#cfdcff;font-size:.95rem}
+.eq{display:flex;gap:.3rem;align-items:flex-end;height:2rem}
+.eq i{width:.4rem;background:#fff;border-radius:.2rem;animation:eq 1s ease-in-out infinite}
+.eq i:nth-child(2){animation-delay:.2s}.eq i:nth-child(3){animation-delay:.4s}.eq i:nth-child(4){animation-delay:.1s}
+@keyframes eq{0%,100%{height:.5rem}50%{height:2rem}}
+
+/* ---------- modale, toast, chargement ---------- */
+.modal{position:fixed;inset:0;z-index:50;background:rgba(2,5,25,.75);display:grid;place-items:center;padding:1rem}
+.sheet{width:100%;max-width:26rem;background:var(--panel);border-radius:1rem;padding:1.4rem;box-shadow:0 1rem 3rem rgba(0,0,0,.5)}
+.sheet h3{margin:0 0 .3rem;font-family:var(--font-display);font-size:1.25rem;color:var(--orange)}
+.sheet p{margin:0 0 .9rem;color:var(--muted);font-size:.9rem}
+.sheet .err{color:#ff8593;font-size:.9rem;min-height:1.2rem;margin:-.2rem 0 .5rem}
+.sheet .acts{display:flex;gap:.7rem}
+.sheet .acts button{flex:1;padding:.8rem;border-radius:.6rem;background:var(--btn);text-align:center;font-weight:700;color:#fff}
+.sheet .acts button.go{background:var(--accent)}
+#toast{position:fixed;left:50%;bottom:calc(1.4rem + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:60;background:#fff;color:#0e1120;padding:.7rem 1.2rem;border-radius:.8rem;font-weight:700;max-width:80%;text-align:center;font-size:.95rem}
+.busy{position:fixed;inset:0;z-index:55;background:rgba(2,5,25,.8);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;color:#fff;font-weight:700}
+.spin{width:3rem;height:3rem;border-radius:50%;border:.28rem solid rgba(255,255,255,.25);border-top-color:#fff;animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+
+/* ---------- lancement ---------- */
+.splash{position:fixed;inset:0;z-index:100;background:#030a2e;color:#fff;overflow:hidden;display:flex;align-items:flex-end}
+.sp-bg{position:absolute;inset:0;background-size:cover;background-position:center;animation:kb 7s ease-out forwards}
+.splash.nophoto .sp-bg{background:radial-gradient(circle at 30% 40%,#0a4bff 0,#0324c2 42%,#030a2e 88%);animation:none}
+@keyframes kb{from{transform:scale(1.08)}to{transform:scale(1)}}
+.sp-shade{position:absolute;inset:0;background:linear-gradient(to right,rgba(1,10,58,.92) 0,rgba(1,10,58,.55) 38%,rgba(1,10,58,0) 70%),linear-gradient(to top,rgba(1,10,58,.85),rgba(1,10,58,0) 45%)}
+.sp-content{position:relative;padding:0 6% 7%;display:flex;flex-direction:column;align-items:flex-start;gap:.3rem;animation:rise .9s .25s both cubic-bezier(.2,.7,.2,1)}
+@keyframes rise{from{opacity:0;transform:translateY(1.5rem)}to{opacity:1;transform:none}}
+.sp-logo{width:5rem;height:5rem;border-radius:1.3rem;box-shadow:0 .5rem 1.5rem rgba(0,0,0,.4);margin-bottom:.7rem}
+.sp-title{margin:0;font-family:var(--font-display);font-style:italic;font-weight:800;font-size:4.6rem;line-height:1;letter-spacing:-.02em}
+.sp-by{margin:.3rem 0 1rem;font-family:var(--font-display);font-weight:600;font-size:1.7rem;color:#d5e2ff}
+.sp-bar{width:14rem;height:.28rem;border-radius:.2rem;background:rgba(255,255,255,.22);overflow:hidden}
+.sp-bar i{display:block;height:100%;width:0;background:#fff;animation:bar 4s linear forwards}
+@keyframes bar{to{width:100%}}
+@media(prefers-reduced-motion:reduce){.sp-bg,.sp-content,.eq i,.sp-bar i{animation-duration:.01s;animation-delay:0s}}
+
+.rotate{display:none;position:fixed;inset:0;z-index:200;background:var(--bg);color:#fff;align-items:center;justify-content:center;text-align:center;font-size:1.1rem}
+.rotate div{font-size:3.5rem}
+.rotate p{font-size:1rem;margin:.5rem 1rem}
+@media (orientation:portrait){.rotate{display:flex}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="player" hidden></div>
+<div id="layer"></div>
+<div id="toast" hidden></div>
+<div class="rotate"><section><div>&#8635;</div><p>Tournez votre appareil en mode paysage</p></section></div>
+
+<script>
+const LOGO = "data:image/png;base64,%%LOGO%%";
+const TEAM_TITLE = "JBM tv";
+const TEAM_BY = "by Céleste Patri-land";
+const NATIVE = !!(window.Capacitor && typeof Capacitor.isNativePlatform === 'function' && Capacitor.isNativePlatform());
+const JP = NATIVE && window.Capacitor.Plugins ? window.Capacitor.Plugins.JbmPlayer : null;
+
+/* ---------- icônes ---------- */
+const ICONS = {
+  search:'<circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/>',
+  bell:'<path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4z"/><path d="M10 21h4"/>',
+  user:'<circle cx="10" cy="8" r="4"/><path d="M3 20c0-4 3-6 7-6M15 19l1-3 5-5 2 2-5 5z"/>',
+  refresh:'<path d="M20 11a8 8 0 0 0-14-4L4 9M4 4v5h5M4 13a8 8 0 0 0 14 4l2-2M20 20v-5h-5"/>',
+  settings:'<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/>',
+  power:'<path d="M12 3v9"/><path d="M6.3 6.3a8 8 0 1 0 11.4 0"/>',
+  back:'<path d="M19 12H5M11 5l-7 7 7 7"/>',
+  heart:'<path d="M12 20s-7-4.4-9-9a5 5 0 0 1 9-3 5 5 0 0 1 9 3c-2 4.6-9 9-9 9z"/>',
+  lock:'<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',
+  unlock:'<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 7.5-2"/>',
+  list:'<path d="M9 6h12M9 12h12M9 18h12M3 6l2 1.5L3 9zM3 15h3M3 19h3"/>',
+  replay:'<path d="M4 12a8 8 0 1 0 3-6.2L4 8M4 3v5h5"/><path d="M10 9l5 3-5 3z"/>',
+  favs:'<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M3 11h18M6 7l3 4M11 7l3 4M16 7l3 4"/>',
+  full:'<path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/>',
+  plus:'<path d="M12 5v14M5 12h14"/>',
+  trash:'<path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/>',
+  check:'<path d="M5 12l5 5 9-10"/>',
+  eyeoff:'<path d="M3 3l18 18M10.6 6.2A9.6 9.6 0 0 1 12 6c5 0 9 4 10 6a14 14 0 0 1-3 3.6M6.4 7.6A14 14 0 0 0 2 12c1 2 5 6 10 6a9.6 9.6 0 0 0 3.4-.6"/>',
+  moon:'<path d="M20 14A8 8 0 0 1 10 4a8 8 0 1 0 10 10z"/>',
+  hour:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5h4"/>',
+  shield:'<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/>',
+  agent:'<circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-4 3-6 7-6s7 2 7 6"/>',
+  cache:'<path d="M4 6h16v12H4z"/><path d="M9 10l6 4M15 10l-6 4"/>',
+  auto:'<path d="M4 12a8 8 0 0 1 14-5l2-2v6h-6l2.3-2.3A5 5 0 0 0 7 12M20 12a8 8 0 0 1-14 5l-2 2v-6h6l-2.3 2.3A5 5 0 0 0 17 12"/>',
+  live:'<rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/>',
+  film:'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 4v16M17 4v16M3 9h4M3 15h4M17 9h4M17 15h4"/>',
+  series:'<path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/>',
+  x:'<path d="M6 6l12 12M18 6L6 18"/>',
+  play:'<path d="M8 5v14l11-7z" fill="currentColor"/>'
+};
+const ic = (n, s = 1.4) => `<svg class="ic" style="width:${s}rem;height:${s}rem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[n]}</svg>`;
+const ART = {
+  live:'<svg class="big" viewBox="0 0 64 64"><path d="M22 9l10 8 10-8" stroke="#2b7de9" stroke-width="3" fill="none" stroke-linecap="round"/><rect x="6" y="14" width="52" height="42" rx="7" fill="#2b7de9"/><rect x="11" y="19" width="33" height="32" rx="4" fill="#ffb84d"/><text x="27.5" y="40" font-size="10.5" font-weight="800" text-anchor="middle" fill="#e53935" font-family="Arial,sans-serif">LIVE</text><circle cx="51" cy="24" r="3" fill="#fff"/><circle cx="51" cy="33" r="3" fill="#ff5252"/><rect x="47" y="40" width="9" height="3" rx="1.5" fill="#fff"/><rect x="47" y="46" width="9" height="3" rx="1.5" fill="#fff"/></svg>',
+  movie:'<svg class="big" viewBox="0 0 64 64"><g transform="rotate(-13 32 20)"><rect x="8" y="9" width="48" height="12" rx="3" fill="#555c73"/><path d="M16 9l7 12M28 9l7 12M40 9l7 12M52 9l4 8" stroke="#eef0ff" stroke-width="5"/></g><rect x="8" y="26" width="48" height="30" rx="4" fill="#4c9aff"/><rect x="14" y="43" width="22" height="3" rx="1.5" fill="#2f6fd0"/><rect x="14" y="49" width="13" height="3" rx="1.5" fill="#2f6fd0"/><circle cx="12" cy="30" r="0"/></svg>',
+  series:'<svg class="big" viewBox="0 0 64 64"><rect x="15" y="6" width="43" height="38" rx="4" fill="#c9cde4"/><rect x="8" y="12" width="46" height="40" rx="4" fill="#e8eaf6"/><path d="M12 14h38M12 50h38" stroke="#7a7f99" stroke-width="3" stroke-dasharray="3 3"/><rect x="12" y="19" width="38" height="26" rx="3" fill="#8e44ec"/><path d="M27 25l13 7-13 7z" fill="#ffb84d"/></svg>'
+};
+
+/* ---------- utilitaires ---------- */
+const $ = s => document.querySelector(s);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const hash = s => { let h = 5381; for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) | 0; return 'i' + (h >>> 0).toString(36); };
+const store = {
+  get(k, d) { try { const v = localStorage.getItem('jbm.' + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
+  set(k, v) { try { localStorage.setItem('jbm.' + k, JSON.stringify(v)); return true; } catch (e) { return false; } }
+};
+let idbP = null;
+function idbOpen() {
+  return new Promise(res => {
+    try { const r = indexedDB.open('jbm-tv', 1); r.onupgradeneeded = () => r.result.createObjectStore('kv'); r.onsuccess = () => res(r.result); r.onerror = () => res(null); }
+    catch (e) { res(null); }
+  });
+}
+async function idbOp(mode, fn) {
+  const db = await (idbP || (idbP = idbOpen()));
+  if (!db) return undefined;
+  return new Promise(res => {
+    try { const t = db.transaction('kv', mode); const r = fn(t.objectStore('kv')); t.oncomplete = () => res(r && r.result); t.onerror = () => res(undefined); }
+    catch (e) { res(undefined); }
+  });
+}
+const idbGet = k => idbOp('readonly', s => s.get(k));
+const idbSet = (k, v) => idbOp('readwrite', s => s.put(v, k));
+const idbDel = k => idbOp('readwrite', s => s.delete(k));
+
+let toastT;
+function toast(msg) { const t = $('#toast'); t.textContent = msg; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => t.hidden = true, 3400); }
+function busy(on, msg) {
+  const l = $('#layer');
+  if (!on) { const b = l.querySelector('.busy'); if (b) b.remove(); return; }
+  l.insertAdjacentHTML('beforeend', `<div class="busy"><div class="spin"></div><div>${esc(msg || 'Chargement…')}</div></div>`);
+}
+
+/* ---------- état ---------- */
+const S = {
+  view: 'splash', stack: [],
+  playlists: store.get('playlists', []), activeId: store.get('active', null),
+  items: [], byId: {},
+  settings: Object.assign({ theme: 'night', hour12: false, pin: null, hidden: [], lockedIds: [], ua: '', autoRefresh: false }, store.get('settings', {})),
+  favs: new Set(store.get('favs', [])), recent: store.get('recent', []),
+  list: { type: 'live', cat: '__all', q: '', cq: '' },
+  preview: null, fs: false, nativeUrl: null, addTab: 'url', catType: 'live', q2: ''
+};
+const saveSettings = () => store.set('settings', S.settings);
+const activePl = () => S.playlists.find(p => p.id === S.activeId) || null;
+const TYPE = { live: 'Télévision en direct', movie: 'Films', series: 'Séries' };
+const isFav = i => S.favs.has(i.id);
+const isLocked = i => S.settings.lockedIds.includes(i.id);
+const hiddenCat = i => S.settings.hidden.includes(i.type + '|' + i.group);
+const ofType = t => S.items.filter(i => i.type === t && !hiddenCat(i));
+const recentOf = t => S.recent.map(id => S.byId[id]).filter(i => i && i.type === t && !hiddenCat(i));
+
+/* ---------- playlists ---------- */
+function parseM3U(text) {
+  const out = []; let cur = null;
+  for (const raw of String(text).split(/\r?\n/)) {
+    const line = raw.trim(); if (!line) continue;
+    if (line.startsWith('#EXTINF')) {
+      const a = {}; line.replace(/([\w-]+)="([^"]*)"/g, (_, k, v) => { a[k.toLowerCase()] = v; return ''; });
+      const name = (line.includes(',') ? line.slice(line.lastIndexOf(',') + 1) : '').trim() || a['tvg-name'] || 'Sans titre';
+      cur = { name, logo: a['tvg-logo'] || '', group: a['group-title'] || 'Sans catégorie' };
+    } else if (!line.startsWith('#') && cur) {
+      cur.url = line;
+      cur.type = /\/movie\//i.test(line) ? 'movie' : /\/series\//i.test(line) ? 'series' : 'live';
+      cur.id = hash(line + '|' + cur.name); out.push(cur); cur = null;
+    }
+  }
+  return out;
+}
+function demoItems() {
+  const mk = (type, group, names) => names.map(n => ({ id: hash('demo' + type + n), name: n, group, type, logo: '', url: 'demo:' + n }));
+  return [
+    ...mk('live', 'Actualités', ['JBM Info 24', 'JBM Monde', 'Journal du soir']),
+    ...mk('live', 'Sport', ['JBM Sport 1', 'JBM Sport 2', 'JBM Foot Live']),
+    ...mk('live', 'Jeunesse', ['JBM Kids', 'JBM Toons']),
+    ...mk('live', 'Musique', ['JBM Hits', 'JBM Gospel', 'JBM Afro Vibes']),
+    ...mk('live', 'Divertissement', ['JBM Cinéma', 'JBM Show']),
+    ...mk('movie', 'Drame', ['La Nuit des Flamboyants', 'Le Dernier Ferry', 'Retour au village']),
+    ...mk('movie', 'Comédie', ['Mariage à crédit', 'Les Voisins du bout du monde', 'Un taxi pour deux']),
+    ...mk('movie', 'Action', ['Cap sur l\'horizon', 'Course contre la nuit']),
+    ...mk('series', 'Drame', ['Les Héritiers du fleuve', 'Quartier Soleil', 'Sous le baobab']),
+    ...mk('series', 'Comédie', ['Colocs à Douala', 'La Famille Mbala']),
+    ...mk('series', 'Policier', ['Brigade de nuit', 'Dossier 237'])
+  ];
+}
+function indexItems(arr) { S.items = arr; S.byId = {}; arr.forEach(i => S.byId[i.id] = i); }
+async function loadPlaylist(pl, force, silent) {
+  if (!pl) return false;
+  if (!silent) busy(true, 'Chargement de « ' + pl.name + ' »…');
+  try {
+    if (pl.type === 'demo') { indexItems(demoItems()); return true; }
+    let items = force ? null : await idbGet('items:' + pl.id);
+    if (!items || !items.length) {
+      if (pl.type === 'file') { toast('Cette liste vient d\'un fichier : ajoutez-la de nouveau pour l\'actualiser.'); return false; }
+      const opts = S.settings.ua ? { headers: { 'User-Agent': S.settings.ua } } : undefined;
+      const r = await fetch(pl.url, opts);
+      if (!r.ok) throw new Error('http ' + r.status);
+      items = parseM3U(await r.text());
+      if (!items.length) throw new Error('vide');
+      idbSet('items:' + pl.id, items);
+    }
+    indexItems(items); return true;
+  } catch (e) {
+    toast('Impossible de charger la liste. Vérifiez l\'adresse et la connexion.');
+    return false;
+  } finally { if (!silent) busy(false); }
+}
+
+/* ---------- navigation ---------- */
+function pushHist(state) { try { history.pushState(state, ''); S.histOK = true; } catch (e) {} }
+function go(view, opts) {
+  if (S.view !== 'splash') S.stack.push({ view: S.view, list: Object.assign({}, S.list), addTab: S.addTab, catType: S.catType });
+  stopPlayback();
+  S.view = view; if (opts && opts.list) S.list = Object.assign({ type: 'live', cat: '__all', q: '', cq: '' }, opts.list);
+  render(); pushHist({ v: view });
+}
+function back() {
+  stopPlayback();
+  const p = S.stack.pop();
+  if (!p) S.view = S.playlists.length ? 'home' : 'add';
+  else { S.view = p.view; S.list = p.list; S.addTab = p.addTab; S.catType = p.catType; }
+  render();
+}
+function navBack() { if (S.histOK) history.back(); else handleBack(); }
+function handleBack() {
+  if (S.fs) { exitFs(); return; }
+  if ($('#modal')) { closeModal(); pushHist({ m: 1 }); return; }
+  if (S.view !== 'home' && S.view !== 'splash') back();
+}
+window.addEventListener('popstate', () => handleBack());
+function openType(t, cat) { go('list', { list: { type: t, cat: cat || '__all', q: '', cq: '' } }); }
+
+/* ---------- accueil ---------- */
+const rb = (icon, label, a, extra = '') => `<button class="rb" data-f data-a="${a}" aria-label="${label}" ${extra}>${ic(icon, 1.5)}</button>`;
+function viewHome() {
+  const pl = activePl();
+  return `<div class="scr home">
+    <header class="hd"><div style="display:flex;align-items:center;gap:.8rem"><img class="hlogo" src="${LOGO}" alt="JBM tv"><b style="font-family:var(--font-display);font-weight:800;color:var(--orange);font-size:1.3rem;white-space:nowrap">JBM TÉLÉVISION</b></div><div class="hicons">
+      ${rb('search', 'Rechercher', 'search')}${rb('bell', 'Notifications', 'bell')}${rb('user', 'Changer de liste', 'playlists')}
+      ${rb('refresh', 'Actualiser', 'refresh')}${rb('settings', 'Paramètres', 'settings')}${rb('power', 'Quitter', 'power')}
+    </div></header>
+    <main class="hgrid">
+      <button class="tile big" data-f data-autofocus data-a="open" data-t="live">${ART.live}<b>Télévision en direct</b><small>${ofType('live').length} chaînes</small></button>
+      <div class="rt">
+        <button class="tile c3" data-f data-a="open" data-t="movie">${ART.movie}<b>Films</b><small>${ofType('movie').length} titres</small></button>
+        <button class="tile c3" data-f data-a="open" data-t="series">${ART.series}<b>Séries</b><small>${ofType('series').length} titres</small></button>
+        <button class="sb" data-f data-a="playlists">${ic('list', 1.6)}Listes de lecture</button>
+        <button class="sb" data-f data-a="recent">${ic('replay', 1.6)}Vu récemment</button>
+        <button class="sb" data-f data-a="favs">${ic('favs', 1.6)}Préféré</button>
+      </div>
+    </main>
+    <footer class="ft"><div><div>Liste de lecture actuelle : <b>${esc(pl ? pl.name : 'aucune')}</b></div>
+      <div class="mut">${ofType('live').length} chaînes · ${ofType('movie').length} films · ${ofType('series').length} séries</div></div>
+      <div class="clk"><div id="clock"></div><div id="date"></div></div></footer>
+  </div>`;
+}
+function tickClock() {
+  const c = $('#clock'); if (!c) return; const d = new Date();
+  c.textContent = d.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', hour12: S.settings.hour12 });
+  $('#date').textContent = d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+}
+
+/* ---------- écrans TV / films / séries ---------- */
+function typeBtns() {
+  return `<div class="types">${['live', 'movie', 'series'].map(t =>
+    `<button class="rb ${S.list.type === t ? 'on' : ''}" data-f data-a="typ" data-t="${t}" aria-label="${TYPE[t]}">${ic(t === 'movie' ? 'film' : t, 1.5)}</button>`).join('')}</div>`;
+}
+function viewList() {
+  const t = S.list.type; const live = t === 'live';
+  const cats = `<div class="col"><div class="sbox">${ic('search', 1.2)}<input data-f data-in="cq" placeholder="Catégories…" value="${esc(S.list.cq)}" autocomplete="off"></div><div class="lst" id="cats"></div></div>`;
+  const chan = `<div class="col"><div class="sbox">${ic('search', 1.2)}<input data-f data-in="q" placeholder="${live ? 'Chaînes…' : 'Titres…'}" value="${esc(S.list.q)}" autocomplete="off"></div><div class="lst ${live ? '' : 'grid'}" id="items"></div></div>`;
+  const right = live ? `<div class="c3col">
+      <div class="pv" id="pv" data-f role="button" tabindex="0" data-a="pv"><div class="nosig"><img src="${LOGO}" alt=""><b>Aucun signal</b><span>Choisissez une chaîne</span></div></div>
+      <div class="info" id="info"></div><div class="btnrow" id="btns"></div></div>` : '';
+  return `<div class="scr">
+    <header class="hd2"><button class="rb" data-f data-a="back" aria-label="Retour">${ic('back', 1.5)}</button><img class="hlogo" style="height:1.9rem;width:1.9rem;margin-right:.5rem" src="${LOGO}" alt=""><b style="font-family:var(--font-display);font-weight:800;color:var(--orange);font-size:1.1rem;white-space:nowrap;margin-right:.8rem">JBM TV</b><h1>${TYPE[t]}</h1>${typeBtns()}</header>
+    <div class="cols ${live ? '' : 'two'}">${cats}${live ? chan + right : `<div class="col"><div class="sbox">${ic('search', 1.2)}<input data-f data-in="q" placeholder="Titres…" value="${esc(S.list.q)}" autocomplete="off"></div><div class="lst"><div class="grid" id="items"></div></div></div>`}</div>
+  </div>`;
+}
+function catRows() {
+  const t = S.list.type; const base = ofType(t); const cq = S.list.cq.trim().toLowerCase();
+  const groups = new Map(); base.forEach(i => groups.set(i.group, (groups.get(i.group) || 0) + 1));
+  const rows = [
+    { k: '__recent', name: 'Vu récemment', n: recentOf(t).length },
+    { k: '__all', name: 'Tout', n: base.length },
+    { k: '__fav', name: 'Préféré', n: base.filter(isFav).length },
+    { k: '__lock', name: 'Lock', n: base.filter(isLocked).length },
+    ...[...groups.entries()].map(([k, n]) => ({ k, name: k, n }))
+  ];
+  return cq ? rows.filter(r => r.name.toLowerCase().includes(cq)) : rows;
+}
+function renderCats() {
+  const box = $('#cats'); if (!box) return;
+  box.innerHTML = catRows().map(r => `<button class="catrow ${S.list.cat === r.k ? 'on' : ''}" data-f data-a="cat" data-k="${esc(r.k)}"><span>${esc(r.name)}</span><span>${r.n}</span></button>`).join('')
+    || '<div class="empty">Aucune catégorie</div>';
+}
+function curItems() {
+  const { type, cat, q } = S.list; let arr = ofType(type);
+  if (cat === '__recent') arr = recentOf(type);
+  else if (cat === '__fav') arr = arr.filter(isFav);
+  else if (cat === '__lock') arr = arr.filter(isLocked);
+  else if (cat !== '__all') arr = arr.filter(i => i.group === cat);
+  const qq = q.trim().toLowerCase(); if (qq) arr = arr.filter(i => i.name.toLowerCase().includes(qq));
+  return arr;
+}
+function initials(n) { return esc(n.trim().charAt(0).toUpperCase()); }
+function chRow(i, idx) {
+  return `<button class="crow ${S.preview === i.id ? 'on' : ''}" data-f data-a="ch" data-id="${i.id}" data-i="${idx}">
+    <div class="clogo">${initials(i.name)}${i.logo ? `<img src="${esc(i.logo)}" alt="" loading="lazy" onerror="this.remove()">` : ''}</div>
+    <span class="cn">${esc(i.name)}</span>${isLocked(i) ? ic('lock', 1.1) : ''}${isFav(i) ? `<span class="fv">${ic('heart', 1.1)}</span>` : ''}</button>`;
+}
+const hue = s => 205 + (parseInt(hash(s).slice(1), 36) % 90);
+function posterHtml(i, idx) {
+  const bg = `background:linear-gradient(160deg,hsl(${hue(i.name)} 75% 38%),hsl(${hue(i.name) + 30} 80% 16%))`;
+  return `<div class="poster" style="${bg}" data-i="${idx}">
+    <button data-f class="poster-hit" style="position:absolute;inset:0;z-index:1" data-a="vod" data-id="${i.id}" aria-label="${esc(i.name)}"></button>
+    ${i.logo ? `<img src="${esc(i.logo)}" alt="" loading="lazy" onerror="this.remove()">` : ''}<b>${esc(i.name)}</b>
+    <button class="pfav ${isFav(i) ? 'on' : ''}" style="z-index:3" data-f data-a="pfav" data-id="${i.id}" aria-label="Favori">${ic('heart', 1.1)}</button></div>`;
+}
+function fillList(box, arr, fn) {
+  box._arr = arr; box._fn = fn; box._n = 0; box.innerHTML = '';
+  if (!arr.length) { box.innerHTML = `<div class="empty">${S.list.cat === '__fav' ? 'Aucun favori pour le moment.' : S.list.cat === '__recent' ? 'Rien de regardé récemment.' : 'Aucun résultat.'}</div>`; return; }
+  addChunk(box);
+}
+function addChunk(box) {
+  const a = box && box._arr; if (!a || box._n >= a.length) return;
+  const to = Math.min(a.length, box._n + 120);
+  box.insertAdjacentHTML('beforeend', a.slice(box._n, to).map((it, k) => box._fn(it, box._n + k)).join(''));
+  box._n = to;
+}
+function renderItems() {
+  const box = $('#items'); if (!box) return;
+  const arr = curItems();
+  fillList(box, arr, S.list.type === 'live' ? chRow : posterHtml);
+  const scroller = S.list.type === 'live' ? box : box.parentElement;
+  scroller.onscroll = () => { if (scroller.scrollTop + scroller.clientHeight > scroller.scrollHeight - 300) addChunk(box); };
+  box._scroller = scroller;
+}
+function mountList() {
+  renderCats(); renderItems();
+  if (S.list.type === 'live') { updateInfo(); }
+}
+function updateInfo() {
+  const info = $('#info'), btns = $('#btns'); if (!info) return;
+  const it = S.preview && S.byId[S.preview];
+  if (!it) { info.innerHTML = '<span class="mut">Sélectionnez une chaîne pour la regarder.</span>'; btns.innerHTML = ''; return; }
+  info.innerHTML = `<div class="clogo">${initials(it.name)}${it.logo ? `<img src="${esc(it.logo)}" alt="" onerror="this.remove()">` : ''}</div><h2>${esc(it.name)}</h2>`;
+  btns.innerHTML = `<button class="pill" data-f data-a="fs">${ic('full', 1.2)}Plein écran</button>
+    <button class="pill" data-f data-a="favp">${ic('heart', 1.2)}${isFav(it) ? 'Retirer des favoris' : 'Ajouter aux favoris'}</button>
+    <button class="pill" data-f data-a="lockp">${ic(isLocked(it) ? 'unlock' : 'lock', 1.2)}${isLocked(it) ? 'Déverrouiller' : 'Lock'}</button>`;
+}
+
+/* ---------- recherche globale ---------- */
+function viewSearch() {
+  return `<div class="scr"><header class="hd2"><button class="rb" data-f data-a="back" aria-label="Retour">${ic('back', 1.5)}</button><h1>Recherche</h1></header>
+    <div class="page"><div class="sbox">${ic('search', 1.2)}<input data-f data-autofocus data-in="q2" placeholder="Chaîne, film ou série…" value="${esc(S.q2)}" autocomplete="off"></div><div id="sres"></div></div></div>`;
+}
+function renderSearch() {
+  const box = $('#sres'); if (!box) return; const q = S.q2.trim().toLowerCase();
+  if (!q) { box.innerHTML = '<div class="empty">Saisissez un nom pour chercher dans tout le catalogue.</div>'; return; }
+  const res = S.items.filter(i => !hiddenCat(i) && i.name.toLowerCase().includes(q)).slice(0, 80);
+  box.innerHTML = res.map(i => `<button class="orow" data-f data-a="vod" data-id="${i.id}"><div class="meta"><b>${esc(i.name)}</b><span>${esc({ live: 'Chaîne', movie: 'Film', series: 'Série' }[i.type])} · ${esc(i.group)}</span></div>${ic('play', 1.1)}</button>`).join('')
+    || '<div class="empty">Aucun résultat.</div>';
+}
+
+/* ---------- listes de lecture ---------- */
+function viewPlaylists() {
+  return `<div class="scr"><header class="hd2"><button class="rb" data-f data-a="back" aria-label="Retour">${ic('back', 1.5)}</button><h1>Listes de lecture</h1>${rb('plus', 'Ajouter', 'add')}</header>
+    <div class="page">${S.playlists.map(p => `
+      <div style="display:flex;gap:.5rem;align-items:stretch"><button class="orow ${p.id === S.activeId ? 'on' : ''}" style="flex:1;margin:0 0 .55rem" data-f data-a="pl-use" data-id="${p.id}">
+        <div class="meta"><b>${esc(p.name)}</b><span>${{ demo: 'Démonstration', file: 'Fichier', url: 'Adresse M3U', xtream: 'Xtream Codes' }[p.type]}${p.id === S.activeId ? ' · active' : ''}</span></div></button>
+        <button class="rb" style="height:auto;border-radius:.6rem;width:3.2rem;margin-bottom:.55rem" data-f data-a="pl-del" data-id="${p.id}" aria-label="Supprimer">${ic('trash', 1.3)}</button></div>`).join('') || '<div class="empty">Aucune liste pour le moment.</div>'}
+      <button class="act" data-f data-a="add">${ic('plus', 1.2)}Ajouter une liste</button></div></div>`;
+}
+function viewAdd() {
+  const first = !S.playlists.length; const t = S.addTab;
+  const body = t === 'url' ? `<div class="fld"><label for="f-url">Adresse de la liste (M3U)</label><input data-f id="f-url" type="url" inputmode="url" placeholder="http://…/liste.m3u" autocomplete="off"></div>`
+    : t === 'file' ? `<div class="fld"><label for="f-file">Fichier de la liste</label><input data-f id="f-file" type="file" accept=".m3u,.m3u8,.txt"></div>`
+    : `<div class="fld"><label for="f-host">Adresse du serveur</label><input data-f id="f-host" type="url" inputmode="url" placeholder="http://serveur:port" autocomplete="off"></div>
+       <div class="fld"><label for="f-user">Nom d'utilisateur</label><input data-f id="f-user" autocomplete="off" autocapitalize="off"></div>
+       <div class="fld"><label for="f-pass">Mot de passe</label><input data-f id="f-pass" type="password" autocomplete="off"></div>`;
+  return `<div class="scr"><header class="hd2">${first ? `<img class="hlogo" style="height:2.6rem;width:2.6rem" src="${LOGO}" alt="">` : `<button class="rb" data-f data-a="back" aria-label="Retour">${ic('back', 1.5)}</button>`}<h1>${first ? 'Bienvenue sur JBM tv' : 'Ajouter une liste'}</h1></header>
+    <div class="page"><div class="tabs">${[['url', 'Adresse M3U'], ['file', 'Fichier'], ['xtream', 'Xtream Codes']].map(([k, l]) => `<button data-f data-a="tab" data-t="${k}" class="${t === k ? 'on' : ''}">${l}</button>`).join('')}</div>
+    <div class="fld"><label for="f-name">Nom de la liste</label><input data-f id="f-name" placeholder="Ma liste" autocomplete="off"></div>${body}
+    <button class="act" data-f data-a="add-submit">Ajouter la liste</button>
+    <button class="act ghost" data-f data-a="demo">Essayer la liste de démonstration</button></div></div>`;
+}
+async function addPlaylist() {
+  const t = S.addTab; const name = ($('#f-name').value || '').trim() || 'Ma liste';
+  const pl = { id: 'p' + Date.now().toString(36), name, type: t }; let fileItems = null;
+  if (t === 'url') {
+    const u = $('#f-url').value.trim(); if (!/^https?:\/\//i.test(u)) return toast('Saisissez une adresse qui commence par http:// ou https://'); pl.url = u;
+  } else if (t === 'xtream') {
+    const h = $('#f-host').value.trim().replace(/\/+$/, ''), u = $('#f-user').value.trim(), p = $('#f-pass').value;
+    if (!/^https?:\/\//i.test(h) || !u || !p) return toast('Renseignez le serveur, l\'utilisateur et le mot de passe.');
+    pl.url = `${h}/get.php?username=${encodeURIComponent(u)}&password=${encodeURIComponent(p)}&type=m3u_plus&output=ts`;
+  } else {
+    const f = $('#f-file').files[0]; if (!f) return toast('Choisissez d\'abord un fichier .m3u');
+    fileItems = parseM3U(await f.text()); if (!fileItems.length) return toast('Ce fichier ne contient aucune chaîne lisible.');
+    idbSet('items:' + pl.id, fileItems);
+  }
+  let ok = true; if (t === 'file') indexItems(fileItems); else ok = await loadPlaylist(pl, true);
+  if (!ok) return;
+  S.playlists.push(pl); S.activeId = pl.id; store.set('playlists', S.playlists); store.set('active', pl.id);
+  S.stack = []; S.view = 'home'; render(); toast('Liste ajoutée');
+}
+
+/* ---------- paramètres ---------- */
+function viewSettings() {
+  const s = S.settings;
+  const g = (a, icon, title, sub, extra = '') => `<button class="sg" data-f data-a="${a}" ${extra}>${ic(icon, 2)}<span>${title}</span>${sub ? `<small>${sub}</small>` : ''}</button>`;
+  return `<div class="scr"><header class="hd2"><button class="rb" data-f data-a="back" aria-label="Retour">${ic('back', 1.5)}</button><h1>Paramètres</h1></header>
+    <div class="sgrid">
+      ${g('parental', 'shield', 'Contrôle parental', s.pin ? 'Code défini' : 'Aucun code')}
+      ${g('hide', 'eyeoff', 'Masquer catégories TV', s.hidden.filter(k => k.startsWith('live|')).length + ' masquée(s)', 'data-t="live"')}
+      ${g('hide', 'eyeoff', 'Masquer catégories films', s.hidden.filter(k => k.startsWith('movie|')).length + ' masquée(s)', 'data-t="movie"')}
+      ${g('hide', 'eyeoff', 'Masquer catégories séries', s.hidden.filter(k => k.startsWith('series|')).length + ' masquée(s)', 'data-t="series"')}
+      ${g('hour', 'hour', 'Format de l\'heure', s.hour12 ? '12 heures' : '24 heures')}
+      ${g('theme', 'moon', 'Changer de thème', s.theme === 'light' ? 'Clair' : 'Nuit')}
+      ${g('clr', 'replay', 'Effacer l\'historique TV', recentOf('live').length + ' élément(s)', 'data-t="live"')}
+      ${g('clr', 'replay', 'Effacer l\'historique films', recentOf('movie').length + ' élément(s)', 'data-t="movie"')}
+      ${g('clr', 'replay', 'Effacer l\'historique séries', recentOf('series').length + ' élément(s)', 'data-t="series"')}
+      ${g('cache', 'cache', 'Vider le cache', 'Recharge la liste')}
+      ${g('auto', 'auto', 'Actualisation automatique', s.autoRefresh ? 'Activée' : 'Désactivée')}
+      ${g('ua', 'agent', 'User Agent', s.ua ? esc(s.ua.slice(0, 22)) : 'Par défaut')}
+      ${g('refresh', 'refresh', 'Mettre à jour maintenant', 'Actualiser la liste')}
+    </div></div>`;
+}
+function viewParental() {
+  const s = S.settings;
+  return `<div class="scr"><header class="hd2"><button class="rb" data-f data-a="back" aria-label="Retour">${ic('back', 1.5)}</button><h1>Contrôle parental</h1></header>
+    <div class="page"><button class="orow" data-f data-a="pin-set"><div class="meta"><b>${s.pin ? 'Changer le code PIN' : 'Définir un code PIN'}</b><span>4 chiffres</span></div>${ic('lock', 1.3)}</button>
+    ${s.pin ? `<button class="orow" data-f data-a="pin-clear"><div class="meta"><b>Supprimer le code PIN</b><span>Les chaînes verrouillées seront libérées</span></div>${ic('trash', 1.3)}</button>` : ''}
+    <div class="empty">Sur l'écran TV, le bouton « Lock » verrouille une chaîne : elle demandera le code PIN à chaque lecture.</div></div></div>`;
+}
+function viewCats() {
+  const t = S.catType; const m = new Map();
+  S.items.filter(i => i.type === t).forEach(i => m.set(i.group, (m.get(i.group) || 0) + 1));
+  const rows = [...m.entries()].map(([g, n]) => { const k = t + '|' + g; const on = S.settings.hidden.includes(k);
+    return `<button class="orow ${on ? 'on' : ''}" data-f data-a="catt" data-k="${esc(k)}"><div class="chk">${on ? ic('check', 1) : ''}</div><div class="meta"><b>${esc(g)}</b><span>${n} élément(s)${on ? ' · masquée' : ''}</span></div></button>`; }).join('');
+  return `<div class="scr"><header class="hd2"><button class="rb" data-f data-a="back" aria-label="Retour">${ic('back', 1.5)}</button><h1>Masquer des catégories</h1></header>
+    <div class="page">${rows || '<div class="empty">Ajoutez d\'abord une liste.</div>'}</div></div>`;
+}
+
+/* ---------- rendu ---------- */
+function render(focusSel) {
+  const app = $('#app'); const v = S.view;
+  const views = { home: viewHome, list: viewList, search: viewSearch, playlists: viewPlaylists, add: viewAdd, settings: viewSettings, parental: viewParental, cats: viewCats };
+  app.innerHTML = views[v] ? views[v]() : '';
+  if (v === 'list') mountList();
+  if (v === 'search') renderSearch();
+  if (v === 'home') tickClock();
+  requestAnimationFrame(() => {
+    const t = (focusSel && $(focusSel)) || $('[data-autofocus]') || $('#app [data-f]');
+    if (t) { try { t.focus({ preventScroll: true }); } catch (e) {} }
+  });
+}
+
+/* ---------- fenêtres ---------- */
+function closeModal() { const m = $('#modal'); if (m) m.remove(); if (JP && S.preview) JP.setVisible({ visible: true }); }
+function openModal({ title, text, fields, ok, onOk }) {
+  if (JP) JP.setVisible({ visible: false });
+  $('#layer').insertAdjacentHTML('beforeend', `<div class="modal" id="modal"><div class="sheet" role="dialog" aria-modal="true"><h3>${esc(title)}</h3>${text ? `<p>${esc(text)}</p>` : ''}
+    ${(fields || []).map(f => `<div class="fld"><label for="m-${f.id}">${esc(f.label)}</label><input data-f id="m-${f.id}" class="big-input" type="${f.type || 'password'}" ${f.type === 'text' ? '' : 'inputmode="numeric" maxlength="4"'} value="${esc(f.val || '')}" autocomplete="off"></div>`).join('')}
+    <div class="err" id="m-err"></div><div class="acts"><button data-f data-a="m-cancel">${fields && fields.length ? 'Annuler' : 'Fermer'}</button>${onOk ? `<button class="go" data-f data-a="m-ok">${esc(ok || 'Valider')}</button>` : ''}</div></div></div>`);
+  const first = $('#modal [data-f]'); if (first) first.focus();
+  $('#modal').addEventListener('click', e => {
+    const a = e.target.closest('[data-a]'); if (!a) return;
+    if (a.dataset.a === 'm-cancel') closeModal();
+    if (a.dataset.a === 'm-ok') {
+      const vals = {}; (fields || []).forEach(f => vals[f.id] = $('#m-' + f.id).value);
+      const err = onOk(vals); if (err) $('#m-err').textContent = err; else closeModal();
+    }
+  });
+}
+function askPin(title, cb) {
+  openModal({ title, text: 'Saisissez votre code PIN à 4 chiffres.', fields: [{ id: 'pin', label: 'Code PIN' }], onOk: v => {
+    if (v.pin !== S.settings.pin) return 'Code incorrect.'; setTimeout(cb, 0); return null; } });
+}
+function setPin(then) {
+  openModal({ title: 'Nouveau code PIN', text: 'Choisissez 4 chiffres.', fields: [{ id: 'a', label: 'Code PIN' }, { id: 'b', label: 'Confirmer' }], onOk: v => {
+    if (!/^\d{4}$/.test(v.a)) return 'Le code doit contenir 4 chiffres.';
+    if (v.a !== v.b) return 'Les deux codes ne correspondent pas.';
+    S.settings.pin = v.a; saveSettings(); toast('Code PIN enregistré'); setTimeout(() => { if (then) then(); else if (S.view === 'parental') render(); }, 0); return null; } });
+}
+const guard = (it, cb) => { if (isLocked(it) && S.settings.pin) askPin('Chaîne verrouillée', cb); else cb(); };
+
+/* ---------- lecture ---------- */
+let curVideo = null, hls = null;
+function isDemo(it) { return it.url.startsWith('demo:'); }
+function rect() {
+  const r = $('#pv').getBoundingClientRect(); const d = window.devicePixelRatio || 1;
+  return { x: Math.round(r.left * d), y: Math.round(r.top * d), w: Math.round(r.width * d), h: Math.round(r.height * d) };
+}
+function webStop() { if (hls) { try { hls.destroy(); } catch (e) {} hls = null; } if (curVideo) { try { curVideo.pause(); curVideo.removeAttribute('src'); curVideo.load(); } catch (e) {} curVideo = null; } }
+function webPlay(box, it, controls) {
+  webStop();
+  if (isDemo(it)) { box.innerHTML = `<div class="p-msg"><img src="${LOGO}" alt=""><div class="eq"><i></i><i></i><i></i><i></i></div><b>${esc(it.name)}</b><p>Aperçu de démonstration. Ajoutez votre liste pour lire les vrais flux.</p></div>`; return; }
+  box.innerHTML = `<video playsinline autoplay ${controls ? 'controls' : ''}></video>`;
+  const v = box.querySelector('video'); curVideo = v;
+  const fail = () => { if (!box.querySelector('.p-msg')) box.insertAdjacentHTML('beforeend', `<div class="p-msg"><b>Lecture impossible</b><p>Ce flux ne répond pas ou son format n'est pas pris en charge ici. L'application Android utilise un lecteur natif bien plus compatible.</p></div>`); };
+  v.addEventListener('error', fail); v.addEventListener('playing', () => { const m = box.querySelector('.p-msg'); if (m) m.remove(); });
+  try {
+    if (/\.m3u8(\?|$)/i.test(it.url) && window.Hls && Hls.isSupported()) { hls = new Hls(); hls.on(Hls.Events.ERROR, (_, d) => { if (d.fatal) fail(); }); hls.loadSource(it.url); hls.attachMedia(v); }
+    else v.src = it.url;
+    const p = v.play(); if (p && p.catch) p.catch(() => {});
+  } catch (e) { fail(); }
+}
+function remember(it) { S.recent = [it.id, ...S.recent.filter(x => x !== it.id)].slice(0, 60); store.set('recent', S.recent); }
+function startPreview(it) {
+  remember(it);
+  if (NATIVE && JP && !isDemo(it)) {
+    const r = rect(); S.nativeUrl = it.url;
+    $('#pv').innerHTML = '';
+    JP.play({ url: it.url, userAgent: S.settings.ua, x: r.x, y: r.y, w: r.w, h: r.h, fullscreen: false }).catch(e => toast('Lecteur indisponible : ' + (e && e.message || e)));
+  } else { if (JP) JP.stop(); S.nativeUrl = null; webPlay($('#pv'), it, false); }
+}
+function stopPlayback() {
+  S.preview = null;
+  if (JP) { try { JP.stop(); } catch (e) {} }
+  S.nativeUrl = null; webStop();
+  const pl = $('#player'); if (pl) { pl.hidden = true; pl.innerHTML = ''; }
+  S.fs = false;
+}
+function openWebPlayer(it) {
+  const p = $('#player'); p.hidden = false;
+  p.innerHTML = `<div class="p-top"><button class="rb" data-f data-a="fsx" aria-label="Fermer">${ic('back', 1.4)}</button><b>${esc(it.name)}</b></div><div class="p-stage" id="p-stage"></div>`;
+  webPlay($('#p-stage'), it, true);
+}
+function enterFs() {
+  const it = S.byId[S.preview]; if (!it) return toast('Choisissez d\'abord une chaîne.');
+  S.fs = true; pushHist({ fs: 1 });
+  if (NATIVE && JP && !isDemo(it)) JP.setLayout({ fullscreen: true }); else { webStop(); openWebPlayer(it); }
+}
+function playFull(it) {
+  remember(it); S.fs = true; pushHist({ fs: 1 });
+  if (NATIVE && JP && !isDemo(it)) { S.nativeUrl = it.url; JP.play({ url: it.url, userAgent: S.settings.ua, fullscreen: true }).catch(e => toast('Lecteur indisponible : ' + (e && e.message || e))); }
+  else openWebPlayer(it);
+}
+function exitFs() {
+  S.fs = false;
+  const pl = $('#player'); const wasWeb = pl && !pl.hidden;
+  if (wasWeb) { webStop(); pl.hidden = true; pl.innerHTML = ''; }
+  const it = S.preview && S.byId[S.preview];
+  if (S.view === 'list' && S.list.type === 'live' && it) {
+    if (NATIVE && JP && !isDemo(it)) { const r = rect(); JP.setLayout({ fullscreen: false, x: r.x, y: r.y, w: r.w, h: r.h }); }
+    else if (wasWeb) startPreview(it);
+    const f = $('[data-a="fs"]'); if (f) f.focus();
+  } else if (JP) { JP.stop(); S.nativeUrl = null; }
+}
+if (JP) {
+  try {
+    JP.addListener('state', ev => { if (ev && ev.state === 'error') toast('Flux indisponible (' + (ev.message || 'erreur') + ')'); });
+    JP.addListener('back', () => navBack());
+  } catch (e) {}
+}
+
+/* ---------- actions ---------- */
+function toggleFav(id) {
+  if (S.favs.has(id)) S.favs.delete(id); else S.favs.add(id);
+  store.set('favs', [...S.favs]);
+}
+async function reload(force) {
+  const pl = activePl(); if (!pl) return;
+  if (pl.type === 'file') return toast('Cette liste vient d\'un fichier : ajoutez-la de nouveau pour l\'actualiser.');
+  if (await loadPlaylist(pl, force)) { render(); toast('Liste actualisée'); }
+}
+async function act(a, d, el) {
+  switch (a) {
+    case 'back': navBack(); break;
+    case 'fsx': navBack(); break;
+    case 'open': openType(d.t); break;
+    case 'favs': openType('live', '__fav'); break;
+    case 'recent': openType('live', '__recent'); break;
+    case 'typ': if (d.t !== S.list.type) { stopPlayback(); S.list = { type: d.t, cat: '__all', q: '', cq: '' }; render('[data-a="typ"][data-t="' + d.t + '"]'); } break;
+    case 'search': S.q2 = ''; go('search'); break;
+    case 'bell': openModal({ title: 'Notifications', text: 'Aucune notification pour le moment.', fields: [] }); break;
+    case 'playlists': go('playlists'); break;
+    case 'refresh': reload(true); break;
+    case 'settings': go('settings'); break;
+    case 'power': if (JP) JP.exitApp(); else toast('Fermez simplement cet onglet pour quitter.'); break;
+    case 'cat': S.list.cat = d.k; renderCats(); renderItems(); { const t = $('[data-a="cat"][data-k="' + CSS.escape(d.k) + '"]'); if (t) t.focus({ preventScroll: true }); } break;
+    case 'ch': {
+      const it = S.byId[d.id]; if (!it) break;
+      if (S.preview === it.id) { enterFs(); break; }
+      guard(it, () => { S.preview = it.id; updateInfo(); document.querySelectorAll('.crow.on').forEach(e => e.classList.remove('on')); const row = $('.crow[data-id="' + it.id + '"]'); if (row) row.classList.add('on'); startPreview(it); });
+      break;
+    }
+    case 'pv': if (S.preview) enterFs(); break;
+    case 'fs': enterFs(); break;
+    case 'favp': { const it = S.byId[S.preview]; if (it) { toggleFav(it.id); updateInfo(); renderCats(); renderItems(); const b = $('[data-a="favp"]'); if (b) b.focus(); } break; }
+    case 'lockp': {
+      const it = S.byId[S.preview]; if (!it) break;
+      const flip = () => { const arr = S.settings.lockedIds; const i = arr.indexOf(it.id); if (i >= 0) arr.splice(i, 1); else arr.push(it.id); saveSettings(); updateInfo(); renderCats(); renderItems(); toast(isLocked(it) ? 'Chaîne verrouillée' : 'Chaîne déverrouillée'); };
+      if (!S.settings.pin) setPin(flip); else if (isLocked(it)) askPin('Déverrouiller', flip); else flip();
+      break;
+    }
+    case 'vod': { const it = S.byId[d.id]; if (it) guard(it, () => playFull(it)); break; }
+    case 'pfav': { toggleFav(d.id); el.classList.toggle('on', S.favs.has(d.id)); renderCats(); break; }
+    case 'add': S.addTab = 'url'; go('add'); break;
+    case 'tab': S.addTab = d.t; render('[data-a="tab"][data-t="' + d.t + '"]'); break;
+    case 'add-submit': addPlaylist(); break;
+    case 'demo': {
+      const pl = { id: 'demo', name: 'Démonstration JBM tv', type: 'demo' };
+      if (!S.playlists.find(p => p.id === 'demo')) S.playlists.push(pl);
+      S.activeId = 'demo'; store.set('playlists', S.playlists); store.set('active', 'demo');
+      await loadPlaylist(pl, true, true); S.stack = []; S.view = 'home'; render(); break;
+    }
+    case 'pl-use': { const pl = S.playlists.find(p => p.id === d.id); if (pl && await loadPlaylist(pl, false)) { S.activeId = pl.id; store.set('active', pl.id); S.stack = []; S.view = 'home'; render(); } break; }
+    case 'pl-del': {
+      S.playlists = S.playlists.filter(p => p.id !== d.id); store.set('playlists', S.playlists); idbDel('items:' + d.id);
+      if (S.activeId === d.id) { S.activeId = S.playlists[0] ? S.playlists[0].id : null; store.set('active', S.activeId); if (S.activeId) await loadPlaylist(activePl(), false, true); else indexItems([]); }
+      if (!S.playlists.length) { S.stack = []; S.view = 'add'; }
+      render(); break;
+    }
+    case 'parental': go('parental'); break;
+    case 'pin-set': if (S.settings.pin) askPin('Code PIN actuel', () => setPin()); else setPin(); break;
+    case 'pin-clear': askPin('Supprimer le code PIN', () => { S.settings.pin = null; S.settings.lockedIds = []; saveSettings(); render(); toast('Code PIN supprimé'); }); break;
+    case 'hide': S.catType = d.t; go('cats'); break;
+    case 'catt': { const arr = S.settings.hidden; const i = arr.indexOf(d.k); if (i >= 0) arr.splice(i, 1); else arr.push(d.k); saveSettings(); render('[data-a="catt"][data-k="' + CSS.escape(d.k) + '"]'); break; }
+    case 'hour': S.settings.hour12 = !S.settings.hour12; saveSettings(); render('[data-a="hour"]'); break;
+    case 'theme': S.settings.theme = S.settings.theme === 'light' ? 'night' : 'light'; saveSettings(); applyTheme(); render('[data-a="theme"]'); break;
+    case 'clr': { const ids = new Set(recentOf(d.t).map(i => i.id)); S.recent = S.recent.filter(id => !ids.has(id)); store.set('recent', S.recent); render('[data-a="clr"][data-t="' + d.t + '"]'); toast('Historique effacé'); break; }
+    case 'cache': { const pl = activePl(); if (pl) { await idbDel('items:' + pl.id); if (pl.type === 'file') { toast('Cache vidé. Ajoutez de nouveau votre fichier.'); } else await reload(true); } break; }
+    case 'auto': S.settings.autoRefresh = !S.settings.autoRefresh; saveSettings(); render('[data-a="auto"]'); break;
+    case 'ua': openModal({ title: 'User Agent', text: 'Laissez vide pour utiliser la valeur par défaut. Certains serveurs exigent un identifiant précis.', fields: [{ id: 'ua', label: 'User Agent', type: 'text', val: S.settings.ua }], onOk: v => { S.settings.ua = v.ua.trim(); saveSettings(); setTimeout(() => render('[data-a="ua"]'), 0); return null; } }); break;
+  }
+}
+
+document.addEventListener('click', e => {
+  const el = e.target.closest('#app [data-a], #player [data-a]'); if (!el) return;
+  act(el.dataset.a, el.dataset, el);
+});
+document.addEventListener('input', e => {
+  const k = e.target.dataset && e.target.dataset.in; if (!k) return;
+  if (k === 'cq') { S.list.cq = e.target.value; renderCats(); }
+  else if (k === 'q') { S.list.q = e.target.value; renderItems(); }
+  else if (k === 'q2') { S.q2 = e.target.value; renderSearch(); }
+});
+document.addEventListener('focusin', e => {
+  const t = e.target; if (!t || !t.scrollIntoView) return;
+  if (t.closest('.lst, .page, .sgrid')) t.scrollIntoView({ block: 'nearest' });
+  const holder = t.closest('[data-i]'); const grid = $('#items');
+  if (holder && grid && grid._arr && Number(holder.dataset.i) >= grid._n - 8) addChunk(grid);
+});
+
+/* ---------- navigation à la télécommande ---------- */
+function focusables(scope) { return [...scope.querySelectorAll('[data-f]')].filter(el => !el.disabled && el.getClientRects().length); }
+function move(dir, scope) {
+  const list = focusables(scope); const cur = document.activeElement;
+  if (!cur || !list.includes(cur)) { if (list[0]) list[0].focus(); return; }
+  const a = cur.getBoundingClientRect(); const ax = a.left + a.width / 2, ay = a.top + a.height / 2;
+  let best = null, bs = Infinity;
+  for (const el of list) {
+    if (el === cur) continue;
+    const b = el.getBoundingClientRect(); const bx = b.left + b.width / 2, by = b.top + b.height / 2; let p, s, o;
+    if (dir === 'right') { if (bx <= ax + 1 || b.left < a.left + 1) continue; p = Math.max(0, b.left - a.right); s = Math.max(0, Math.max(a.top, b.top) - Math.min(a.bottom, b.bottom)); o = Math.abs(by - ay); }
+    else if (dir === 'left') { if (bx >= ax - 1 || b.right > a.right - 1) continue; p = Math.max(0, a.left - b.right); s = Math.max(0, Math.max(a.top, b.top) - Math.min(a.bottom, b.bottom)); o = Math.abs(by - ay); }
+    else if (dir === 'down') { if (by <= ay + 1 || b.top < a.top + 1) continue; p = Math.max(0, b.top - a.bottom); s = Math.max(0, Math.max(a.left, b.left) - Math.min(a.right, b.right)); o = Math.abs(bx - ax); }
+    else { if (by >= ay - 1 || b.bottom > a.bottom - 1) continue; p = Math.max(0, a.top - b.bottom); s = Math.max(0, Math.max(a.left, b.left) - Math.min(a.right, b.right)); o = Math.abs(bx - ax); }
+    const score = p + s * 3 + o * 0.25;
+    if (score < bs) { bs = score; best = el; }
+  }
+  if (best) { best.focus(); best.scrollIntoView({ block: 'nearest', inline: 'nearest' }); }
+}
+document.addEventListener('keydown', e => {
+  if (S.view === 'splash') { splashDone(); return; }
+  const dirs = { ArrowUp: 'up', ArrowDown: 'down', ArrowLeft: 'left', ArrowRight: 'right' }; const dir = dirs[e.key];
+  const a = document.activeElement;
+  if (dir) {
+    if (S.fs && NATIVE) return;
+    if (a && a.tagName === 'INPUT' && (dir === 'left' || dir === 'right') && a.value) return;
+    e.preventDefault(); move(dir, $('#modal') || (S.fs ? $('#player') : document.body)); return;
+  }
+  if ((e.key === 'Enter' || e.keyCode === 23) && a && a.matches('[role=button][data-f]')) { e.preventDefault(); a.click(); return; }
+  if (e.key === 'Escape' || e.key === 'GoBack' || e.key === 'BrowserBack') { e.preventDefault(); navBack(); }
+});
+
+/* ---------- lancement ---------- */
+function applyTheme() { document.documentElement.setAttribute('data-theme', S.settings.theme); }
+let splashTimer = null, splashReady = null, splashClosed = false;
+function splashDone() {
+  if (splashClosed) return; splashClosed = true; clearTimeout(splashTimer);
+  splashReady.then(() => { const el = $('#splash'); if (el) el.remove(); S.view = S.playlists.length ? 'home' : 'add'; render(); try { history.replaceState({ v: S.view }, ''); } catch (e) {} });
+}
+function showSplash(ready, hasPhoto) {
+  splashReady = ready;
+  const el = document.createElement('div'); el.id = 'splash'; el.className = 'splash' + (hasPhoto ? '' : ' nophoto');
+  el.innerHTML = `<div class="sp-bg" ${hasPhoto ? `style="background-image:url('team.jpg')"` : ''}></div><div class="sp-shade"></div>
+    <div class="sp-content"><img class="sp-logo" src="${LOGO}" alt=""><h1 class="sp-title">${TEAM_TITLE}</h1><p class="sp-by">${TEAM_BY}</p><div class="sp-bar"><i></i></div></div>`;
+  document.body.appendChild(el); el.addEventListener('click', splashDone);
+  splashTimer = setTimeout(splashDone, 4000);
+}
+const probe = src => new Promise(r => { const i = new Image(); i.onload = () => r(true); i.onerror = () => r(false); i.src = src; });
+applyTheme();
+setInterval(tickClock, 20000);
+const ready = (async () => {
+  const pl = activePl();
+  if (pl) await loadPlaylist(pl, !!(S.settings.autoRefresh && pl.type !== 'file' && pl.type !== 'demo'), true);
+})();
+(async () => { showSplash(ready, await probe('team.jpg')); })();
+</script>
+</body>
+</html>
