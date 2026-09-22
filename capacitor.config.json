@@ -1,0 +1,12 @@
+{
+  "appId": "com.jbmtv.app",
+  "appName": "JBM tv",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "http",
+    "cleartext": true
+  },
+  "android": {
+    "allowMixedContent": true
+  }
+}
